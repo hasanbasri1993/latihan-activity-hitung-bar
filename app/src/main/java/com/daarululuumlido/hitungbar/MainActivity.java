@@ -9,13 +9,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    EditText edtWidth, edtHeight, edtLength;
-    Button btnCalculate;
-    TextView tvResult;
+
+    //mendeklarasikan semua komponen view yang akan dimanipulasi
+    private static final String STATE_RESULT = "state_result";
+    private EditText edtWidth, edtHeight, edtLength;
+    private Button btnCalculate;
+    private TextView tvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //menampilkan tampilan yang berasal dari layout activity_main.xml.
         setContentView(R.layout.activity_main);
 
         edtWidth = findViewById(R.id.edt_width);
@@ -25,6 +29,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvResult = findViewById(R.id.tv_result);
 
         btnCalculate.setOnClickListener(this);
+
+        if(savedInstanceState!= null){
+            String result = savedInstanceState.getString(STATE_RESULT);
+            tvResult.setText(result);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_RESULT, tvResult.getText().toString());
     }
 
     @Override
